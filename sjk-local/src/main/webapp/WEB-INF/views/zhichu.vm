@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-responsive.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/style.css')" />
+    <script type="text/javascript" src="#springUrl('/js/jquery.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.sorted.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/bootstrap.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/ckform.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/common.js')"></script>
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/jquery.alert.css">
+    <script type="text/javascript" src="#springUrl('/js/jquery-1.4.3.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.alert.js')"></script>
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-datetimepicker.min.css')" />
+    <script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.js')" charset="UTF-8"></script>
+	<script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.zh-CN.js')" charset="UTF-8"></script>	
+	<style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+    </style>
+
+</head>
+    <body>
+		<form id="sampleListForm" class="form-inline definewidth m20" action="renyuan.do" method="get" >
+			#if($renyuan)
+				员工姓名：<b style="color:red">$!{renyuan.username}</b>
+				<a href="#springUrl('/zhichu/add.do?rid=')$!{renyuan.id}">
+					<button type="button"  class="btn btn-primary">为$!{renyuan.username}添加支出</button>
+				</a>
+			#end
+		</form>
+		<table class="table table-bordered table-hover definewidth m10" >
+			<thead>
+				<tr>
+					<th style="text-align:center"><input type="checkbox" id="cb-all" /></th>
+					<th>员工姓名</th>
+					<th>支出金钱（单位：人民币）</th>
+					<th>支出时间</th>
+					<th>备注</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			#foreach($obj in $page.records)
+				<tr>
+					<td  style="text-align:center">#if($!{obj.rid}>0)<input type="checkbox" id="cb$!{obj.id}" /> #else <span style="color:red">已删除</span> #end</td>
+					<td>
+						$!{obj.rname}
+					</td>
+        			<td>
+						$!{obj.moneyGet}.00 元
+					</td>
+        			<td>
+						#printFragmentDate("yyyy-MM-dd",$!{obj.gmtGet})
+					</td>
+					<td>
+						$!{obj.remark}
+					</td>
+					<td>
+						#if($!{obj.rid}>0)
+							<a onclick="deleteById($!{obj.id})">删除</a>
+						#else
+							&nbsp;
+						#end
+					</td>
+        		</tr>
+        	#end
+			<script type="text/javascript">
+        		function deleteById(id){
+        			if(confirm('确定要删除该支出单？')){
+        				window.location='#springUrl('/zhichu/doDelete.do?id=')'+id
+        			}
+        			return false;
+        		}
+            </script>
+        </table>
+        <div class="inline pull-right page">
+        	<div>
+        		#page($!{page} "#springUrl('/zhichu.do')" "" "")
+        	</div>
+        </div>
+    </body>
+</html>

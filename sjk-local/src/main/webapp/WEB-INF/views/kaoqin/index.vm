@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-responsive.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/style.css')" />
+    <script type="text/javascript" src="#springUrl('/js/jquery.js')"></script>
+    ##<script type="text/javascript" src="#springUrl('/js/jquery.sorted.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/bootstrap.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/ckform.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/common.js')"></script>
+	
+	<!-- 
+	-->
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/jquery.alert.css">
+    <script type="text/javascript" src="#springUrl('/js/jquery-1.4.3.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.alert.js')"></script>
+	
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-datetimepicker.min.css')" />
+    <script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.js')" charset="UTF-8"></script>
+	<script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.zh-CN.js')" charset="UTF-8"></script>	
+	
+	<style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+    </style>
+
+</head>
+    <body>
+        <form id="kaoqinId" class="form-inline definewidth m20" action="index.do" method="get" >
+			$!{userStr}
+			<br/>
+			<select name="year" id="year">
+				<option #if($yearStr=="2014") selected  #end value="2014">2014</option>
+				<option #if($yearStr=="2015") selected  #end value="2015">2015</option>
+				<option #if($yearStr=="2016") selected  #end value="2016">2016</option>
+				<option #if($yearStr=="2017") selected  #end value="2017">2017</option>
+				<option #if($yearStr=="2018") selected  #end value="2018">2018</option>
+				<option #if($yearStr=="2019") selected  #end value="2019">2019</option>
+				<option #if($yearStr=="2020") selected  #end value="2020">2020</option>
+				<option #if($yearStr=="2021") selected  #end value="2021">2021</option>
+				<option #if($yearStr=="2022") selected  #end value="2022">2022</option>
+				<option #if($yearStr=="2023") selected  #end value="2023">2023</option>
+				<option #if($yearStr=="2024") selected  #end value="2024">2024</option>
+				<option #if($yearStr=="2025") selected  #end value="2025">2025</option>
+			</select>
+			年
+			<select name="month" id="month">
+				<option #if($monthStr=="1") selected value="1" #end>1</option>
+				<option #if($monthStr=="2") selected value="2" #end>2</option>
+				<option #if($monthStr=="3") selected value="3" #end>3</option>
+				<option #if($monthStr=="4") selected value="4" #end>4</option>
+				<option #if($monthStr=="5") selected value="5" #end>5</option>
+				<option #if($monthStr=="6") selected value="6" #end>6</option>
+				<option #if($monthStr=="7") selected  value="7" #end>7</option>
+				<option #if($monthStr=="8") selected  value="8" #end>8</option>
+				<option #if($monthStr=="9") selected  value="9" #end>9</option>
+				<option #if($monthStr=="10") selected  value="10" #end>10</option>
+				<option #if($monthStr=="11") selected  value="11" #end>11</option>
+				<option #if($monthStr=="12") selected  value="12" #end>12</option>
+			</select>
+			月份
+        	<button type="submit" class="btn btn-primary">查询</button>
+			<input type="hidden" id="rid" name="rIds" value="$!{rid}" />
+        </form>
+        <table class="table table-bordered table-hover definewidth m10" border="1px" >
+        	<thead>
+        		<tr>
+##        			<th style="text-align:center"><input type="checkbox" id="cb-all" /></th>
+##        			<th>员工姓名</th>
+##        			<th>工资（单位：人民币）</th>
+##        			<th>入职时间</th>
+##        			<th>操作</th>
+        		</tr>
+        	</thead>
+        		<tr>
+					#foreach($i in [1..$days])
+    					#if(10>=$velocityCount)
+                			<td>
+        						$!{todayStr}-$velocityCount
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if(10>=$velocityCount)
+                			<td>
+								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if(20>=$velocityCount&&$velocityCount>10)
+                			<td >
+        						$!{todayStr}-$velocityCount
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if(20>=$velocityCount&&$velocityCount>10)
+                			<td >
+								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if(30>=$velocityCount&&$velocityCount>20)
+                			<td >
+        						$!{todayStr}-$velocityCount
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if(30>=$velocityCount&&$velocityCount>20)
+                			<td >
+								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if($velocityCount>30)
+							<td >
+        						$!{todayStr}-$velocityCount
+        					</td>
+    					#end
+					#end
+        		</tr>
+				<tr>
+					#foreach($i in [1..$days])
+    					#if($velocityCount>30)
+                			<td >
+								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+        					</td>
+    					#end
+					#end
+        		</tr>
+        </table>
+        <div class="inline pull-right page">
+        	<div>
+        		##page($!{page} "#springUrl('/renyuan.do')" "" "")
+        	</div>
+        </div>
+		<script type="text/javascript">
+			jQuery(document).ready(function(){
+				jQuery(".timeWork").blur(function(){
+					jQuery.ajax({
+						url:"doAdd.do",
+						data:{
+							"day":this.id,
+							"timeWork":this.value,
+							"rid":jQuery("#rid").val()
+							},
+						dataType:'json'
+					})
+				})
+			
+			})
+        </script>
+    </body>
+</html>

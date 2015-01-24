@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="zhichu">
+
+	<typeAlias alias="zhichuDomain" type="com.sjk.domain.Zhichu" />
+
+	<resultMap id="zhichuResult" class="zhichuDomain">
+		<result property="id" column="id" />
+		<result property="rid" column="rid"/>
+		<result property="rname" column="rname" />
+		<result property="gmtGet" column="gmt_get" />
+		<result property="moneyGet" column="money_get" />
+		<result property="remark" column="remark" />
+		<result property="gmtCreated" column="gmt_created" />
+		<result property="gmtModified" column="gmt_modified" />
+	</resultMap>
+
+	<sql id="defaultColumn">
+		id,rid,gmt_get,money_get,remark,rname,gmt_created,gmt_modified
+	</sql>
+
+	<insert id="insert" parameterClass="zhichuDomain">
+		insert into zhichu
+		(
+			rid,gmt_get,money_get,remark,rname,gmt_created,gmt_modified
+		)
+		values
+		(
+			#rid#,#gmtGet#,#moneyGet#,#remark#,#rname#,#gmtCreated#,#gmtModified#
+		)
+		<selectKey resultClass="int" type="post" keyProperty="id">
+			select @@IDENTITY as [value]
+		</selectKey>
+	</insert>
+
+	<update id="update" parameterClass="zhichuDomain">
+		update zhichu
+		set gmt_modified = #gmtModified#
+		<isNotNull property="moneyGet" prepend=",">
+			money_get = #moneyGet#
+		</isNotNull>
+		<isNotNull property="remark" prepend=",">
+			remark = #remark#
+		</isNotNull>
+		<isNotNull property="gmtGet" prepend=",">
+			gmt_get = #gmtGet#
+		</isNotNull>
+		where id = #id#
+	</update>
+	
+	<update id="delete" parameterClass="java.util.Map">
+		update zhichu
+		set gmt_modified = #gmtModified#,
+		rid = 0
+		where id = #id#
+	</update>
+
+	<select id="queryById" parameterClass="java.lang.Integer"
+		resultMap="zhichuResult">
+		select
+		<include refid="defaultColumn" />
+		from zhichu
+		where id = #value#
+	</select>
+
+	<sql id="whereCase">
+		<dynamic prepend="where">
+			<isGreaterThan prepend="and" compareValue="0" property="zhichu.rid">
+				rid = #zhichu.rid#
+			</isGreaterThan>
+			<isNotNull prepend="and" property="zhichu.from">
+				gmt_get >= #zhichu.from#
+			</isNotNull>
+			<isNotNull prepend="and" property="zhichu.to">
+				#zhichu.to# > gmt_get
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<select id="list" parameterClass="java.util.Map" resultMap="zhichuResult">
+		select
+		<include refid="defaultColumn" />
+		from zhichu
+		<include refid="whereCase"/>
+	</select>
+
+</sqlMap>		
+ 

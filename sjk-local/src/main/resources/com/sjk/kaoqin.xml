@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="kaoqin">
+
+	<typeAlias alias="kaoqinDomain" type="com.sjk.domain.Kaoqin" />
+
+	<resultMap id="kaoqinResult" class="kaoqinDomain">
+		<result property="id" column="id" />
+		<result property="rid" column="rid" />
+		<result property="rname" column="rname" />
+		<result property="gmtWork" column="gmt_work" />
+		<result property="timeWork" column="time_work"  />
+		<result property="gmtCreated" column="gmt_created" />
+		<result property="gmtModified" column="gmt_modified" />
+	</resultMap>
+
+	<sql id="defaultColumn">
+		id,
+		rid,
+		rname,
+		gmt_work,
+		time_work,
+		gmt_created,
+		gmt_modified
+	</sql>
+
+	<insert id="insert" parameterClass="kaoqinDomain">
+		insert into kaoqin
+		(
+		rid,rname,gmt_work,time_work,gmt_created,gmt_modified,gmt_work_str
+		)
+		values
+		(
+		#rid#,#rname#,#gmtWork#,#timeWork#,#gmtCreated#,#gmtModified#,#gmtWorkStr#
+		)
+		<selectKey resultClass="int" type="post" keyProperty="id">
+			select @@IDENTITY as [value]
+		</selectKey>
+	</insert>
+
+	<update id="update" parameterClass="java.util.Map">
+		update kaoqin
+		set gmt_modified = #gmtModified#
+		<isNotNull property="timeWork" prepend=",">
+			time_work = #timeWork#
+		</isNotNull>
+		where id = #id#
+	</update>
+
+	<select id="queryById" parameterClass="java.lang.Integer"
+		resultMap="kaoqinResult">
+		select
+		<include refid="defaultColumn" />
+		from kaoqin
+		where id = #value#
+	</select>
+
+	<sql id="whereCase">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="kaoqin.rid">
+				rid = #kaoqin.rid#
+			</isNotEmpty>
+			<isNotNull prepend="and" property="kaoqin.from">
+				gmt_work >= #kaoqin.from#
+			</isNotNull>
+			<isNotNull prepend="and" property="kaoqin.to">
+				#kaoqin.to# > gmt_work
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<select id="list" parameterClass="java.util.Map" resultMap="kaoqinResult">
+		select
+		<include refid="defaultColumn" />
+		from kaoqin
+		<include refid="whereCase"/>
+	</select>
+	
+	<select id="queryIsExists" parameterClass="java.util.Map" resultMap="kaoqinResult">
+		select 
+		<include refid="defaultColumn" />
+		from kaoqin
+		where rid = #rid# and gmt_work_str = #gmtWork#
+		<!-- gmt_work = $gmtWork$ -->
+	</select>
+	
+	
+
+</sqlMap>		
+ 

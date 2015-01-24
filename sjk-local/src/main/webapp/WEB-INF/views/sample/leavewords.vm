@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/style.css" />
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+<form action="index.htm" method="post" class="definewidth m20">
+<input type="hidden" name="id" value="" />
+<table class="table table-bordered table-hover ">
+    <tr>
+        <td width="10%" class="tableleft">样品级别</td>
+        <td>$!{custominfo.level}</td>
+    </tr>
+    <tr>
+        <td class="tableleft">样品颜色</td>
+        <td >$!{custominfo.color}</td>
+    </tr>  
+    <tr>
+        <td class="tableleft">用途</td>
+        <td >$!{custominfo.useDes}</td>
+    </tr>
+    <tr>
+        <td class="tableleft">详细描述</td>
+        <td >$!{custominfo.memo}</td>
+    </tr>
+	<!-- 
+    <tr>
+        <td class="tableleft"></td>
+        <td>
+            <button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+        </td>
+    </tr>
+	-->
+</table>
+</form>
+</body>
+</html>

@@ -1,0 +1,56 @@
+#set($layout="/layout/blank.vm")
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>大工地 - 工资清算导出系统 V1.0.0</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link href="#springUrl('/css/dpl-min.css')" rel="stylesheet" type="text/css" />
+		<link href="#springUrl('/css/bui-min.css')" rel="stylesheet" type="text/css" />
+		<link href="#springUrl('/css/main-min.css')" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+
+		<div class="header">
+			<div class="dl-title">
+				<!--<img src="/chinapost/Public/assets/img/top.png">-->
+			</div>
+			<div class="dl-log">欢迎您  <!--span class="dl-log-user">root</span--><a href="/web/zz91/admin/logout.htm" title="退出系统" class="dl-log-quit">[退出]</a>
+			</div>
+		</div>
+		<div class="content">
+			<div class="dl-main-nav">
+				<div class="dl-inform"><div class="dl-inform-title"><s class="dl-inform-icon dl-up"></s></div></div>
+				<ul id="J_Nav"  class="nav-list ks-clear">
+					<li class="nav-item dl-selected"><div class="nav-item-inner nav-home">大工地管理</div></li>       
+				</ul>
+			</div>
+			<ul id="J_NavContent" class="dl-tab-conten">
+			</ul>
+		</div>
+		<script type="text/javascript" src="#springUrl('/js/jquery-1.8.1.min.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/bui-min.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/common/main-min.js')"></script>
+		<script type="text/javascript" src="#springUrl('/js/config-min.js')"></script>
+		<script>
+			BUI.use('common/main',function(){
+				var config = 
+				[
+					{id:'7',homePage : '8',menu:
+					[
+						{
+    				  		text:'大工地',items:
+    				  		[
+    							{id:'8',text:'员工情况',href:'renyuan.do'},
+    							{id:'11',text:'支出情况',href:'zhichu.do'}
+    					  	] 
+						}
+					]
+					}
+	  			];
+				new PageUtil.MainPage({
+				modulesConfig : config
+				});
+			});
+		</script>
+	</body>
+</html>

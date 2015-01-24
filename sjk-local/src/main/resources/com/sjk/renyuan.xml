@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap
+	PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="renyuan">
+
+	<typeAlias alias="renyuanDomain" type="com.sjk.domain.Renyuan" />
+
+	<resultMap id="renyuanResult" class="renyuanDomain">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="gmtIn" column="gmt_in" />
+		<result property="usermoney" column="usermoney" jdbcType="int" javaType="int" />
+		<result property="gmtCreated" column="gmt_created" />
+		<result property="gmtModified" column="gmt_modified" />
+	</resultMap>
+
+	<sql id="defaultColumn">
+		id,
+		username,
+		gmt_in,
+		usermoney,
+		gmt_created,
+		gmt_modified
+	</sql>
+
+	<insert id="insert" parameterClass="renyuanDomain">
+		insert into renyuan
+		(
+		username,gmt_in,usermoney,gmt_created,gmt_modified
+		)
+		values
+		(
+		#username#,#gmtIn#,#usermoney#,#gmtCreated#,#gmtModified#
+		)
+		<selectKey resultClass="int" type="post" keyProperty="id">
+			select @@IDENTITY as [value]
+		</selectKey>
+	</insert>
+
+	<update id="update" parameterClass="renyuanDomain">
+		update renyuan
+		set gmt_modified = #gmtModified#
+		<isNotEmpty property="username" prepend=",">
+			username =
+			#username#
+		</isNotEmpty>
+		<isNotNull property="usermoney" prepend=",">
+			usermoney = #usermoney#
+		</isNotNull>
+		<isNotNull property="gmtIn" prepend=",">
+			gmt_in = #gmtIn#
+		</isNotNull>
+		where id = #id#
+	</update>
+
+	<delete id="delete" parameterClass="java.lang.Integer">
+		delete from renyuan where id
+		= #value#
+	</delete>
+
+	<select id="queryById" parameterClass="java.lang.Integer"
+		resultMap="renyuanResult">
+		select
+		<include refid="defaultColumn" />
+		from renyuan
+		where id = #value#
+	</select>
+
+	<sql id="whereCase">
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="renyuan.username">
+				username like '%$renyuan.username$%' 
+			</isNotEmpty>
+			<isNotNull prepend="and" property="renyuan.gmtIn">
+				gmt_in = #renyuan.gmtIn#
+			</isNotNull>
+		</dynamic>
+	</sql>
+
+	<select id="list" parameterClass="java.util.Map" resultMap="renyuanResult">
+		select
+		<include refid="defaultColumn" />
+		from renyuan
+		<include refid="whereCase"/>
+	</select>
+
+	<select id="count" parameterClass="java.util.Map" resultClass="java.lang.Integer">
+		select count(id)
+		from renyuan
+		<include refid="whereCase"/>
+	</select>
+
+</sqlMap>		
+ 

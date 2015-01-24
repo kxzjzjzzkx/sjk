@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-responsive.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/style.css')" />
+    <script type="text/javascript" src="#springUrl('/js/jquery.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.sorted.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/bootstrap.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/ckform.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/common.js')"></script>
+
+    <style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+</head>
+<body>
+    <form action="doAdd.do" method="get" class="definewidth m20">
+        <table class="table table-bordered table-hover definewidth m10">
+            <tr>
+        		<td width="10%" class="tableleft">姓名</td>
+        		<td><input type="text" name="rname" value="$!{username}"/></td>
+        	</tr>
+        	<tr>
+        		<td class="tableleft">支出金额</td>
+        		<td><input type="text" name="moneyGet"/></td>
+        	</tr>
+        	<tr>
+        		<td class="tableleft">备注(原因)</td>
+        		<td><input type="text" name="remark"/></td>
+        	</tr>
+        	<tr>
+        		<td class="tableleft"><span style="color:red">*</span>支出时间</td>
+        		<td><input type="text" name="gmtGetStr" value="$!{dateStr}"/>格式：2015-1-1</td>
+        	</tr>
+        	<tr>
+        		<td class="tableleft"></td>
+        		<td>
+        			<button type="submit" class="btn btn-primary" type="button">保存</button> 
+        			&nbsp;&nbsp;
+        			<a href="#springUrl('/renyuan.do')">
+        				<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+        			</a>
+        		</td>
+        	</tr>
+        </table>
+        <input type="hidden" name="rid" value="$!{rid}" />
+    </form>
+</body>
+</html>
+<script>
+    jQuery(function () {       
+		jQuery('#backid').click(function(){
+				window.location.href="index.htm";
+		 });
+
+    });
+</script>

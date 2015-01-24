@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/bootstrap-responsive.css" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/style.css" />
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/jquery.js"></script>
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/jquery.sorted.js"></script>
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/bootstrap.js"></script>
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/ckform.js"></script>
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/common.js"></script>
+	
+	<!-- 
+	-->
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/jquery.alert.css">
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/jquery-1.4.3.js"></script>
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/jquery.alert.js"></script>
+	
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/sampleAdmin/bootstrap-datetimepicker.min.css" />
+    <script type="text/javascript" src="#springUrl('/')js/sampleAdmin/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="#springUrl('/')js/sampleAdmin/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>	
+	
+	<style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+
+</head>
+<body>
+<form id="sampleListForm" class="form-inline definewidth m20" action="saleList.htm" method="get" >  
+	<select name="companyType" style="width: 80px;">
+		<option value="0" #if($companyType=="0") selected  #end>买方</option>
+		<option value="1" #if($companyType=="1") selected  #end>卖方</option>
+	</select>
+	公司名称<input type="text" name="sellerName" id="sellerName"class="abc input-default" placeholder="" value="$!{sellerName}"   style="width:130px" />&nbsp;&nbsp;					
+	样品标题   <input type="text" name="snapTitle" id="snapTitle"class="abc input-default" placeholder="" value="$!{snapTitle}"   style="width:130px" />&nbsp;&nbsp;					
+	订单号  <input type="text" name="orderid" id="orderid"class="abc input-default" placeholder="" value="$!{orderid}"   style="width:110px"  />&nbsp;&nbsp;
+	<select   name="state" style="width:136px">
+		<option selected  value="">订单状态</option>
+		<option #if($!{state}=="00")  selected #end  value="00">等待买家付款</option>
+		<option #if($!{state}=="03")  selected #end  value="03">等待卖家发货</option>
+		<option #if($!{state}=="06")  selected #end  value="06">买家提醒发货</option>
+		<option #if($!{state}=="11")  selected #end  value="11">等待买家确认收货</option>
+		<option #if($!{state}=="13")  selected #end  value="13">交易成功</option>
+		<option #if($!{state}=="20")  selected #end  value="20">交易关闭</option>
+		<option #if($!{state}=="14")  selected #end value="14">买家申请退货</option>
+		<option #if($!{state}=="15")  selected #end  value="15">卖家同意退货</option>
+		<option #if($!{state}=="16")  selected #end  value="16">等待卖家确认收货</option>
+		<option #if($!{state}=="17")  selected #end  value="17">退货成功</option>
+	</select>	&nbsp;&nbsp;
+	下单日期
+	<div class="controls input-append date form_date" data-date="" data-date-format="yyyy-mm-dd" data-link-field="datefrom" data-link-format="yyyy-mm-dd">
+		<input   style="width:80px" size="12" type="text" value="$!{from}" />
+		<span class="add-on"  style="height:14px">
+			<i class="icon-th"></i>
+		</span>
+	</div>
+	<input type="hidden" name="datefrom" id="datefrom" value="$!{from}" />
+	至
+	<div class="controls input-append date form_date2" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dateto" data-link-format="yyyy-mm-dd">
+		<input   style="width:80px" size="12" type="text" value="$!{to}" />
+		<span class="add-on" style="height:14px"><i class="icon-th"></i></span>
+	</div>
+	<input type="hidden" name="dateto" id="dateto" value="$!{to}" />
+
+	<script type="text/javascript">
+		$('.form_date').datetimepicker({ language:  'zh-CN', weekStart: 1,todayBtn:  1,autoclose: 1,todayHighlight: 1,startView: 2,minView: 2,forceParse: 0});
+		$('.form_date2').datetimepicker({ language:  'zh-CN', weekStart: 1,todayBtn:  1,autoclose: 1,todayHighlight: 1,startView: 2,minView: 2,forceParse: 0});
+	</script>
+	<button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp;
+	
+	<input type="hidden" id="dir" name="dir" value="$!{page.dir}" />
+	<input type="hidden" id="sort" name="sort" value="$!{page.sort}" />
+	
+</form>
+<table class="table table-bordered table-hover definewidth m10" >
+    <thead>
+    <tr>
+        <th>订单号</th>		
+        <th>样品标题</th>
+        <th>（卖家）公司名称</th>
+        <th>（买家）公司名称</th>
+        <th>件数</th>
+        <th>单价-元</th>
+        <th>运费</th>
+        <th onclick="listSort('amount')">总额-元#if($page.sort=="amount"&&$page.dir=="desc")↓ #elseif($page.sort=="amount"&&$page.dir=="asc") ↑ #end</th>
+        <th>订单状态</th>
+        <th onclick="listSort('gmt_created')">下单时间#if($page.sort=="gmt_created"&&$page.dir=="desc")↓ #elseif($page.sort=="gmt_created"&&$page.dir=="asc") ↑ #end</th>
+        <th onclick="listSort('gmt_modified')">最后操作时间#if($page.sort=="gmt_modified"&&$page.dir=="desc")↓ #elseif($page.sort=="gmt_modified"&&$page.dir=="asc") ↑ #end</th>
+        <th>查看</th>
+    </tr>
+    </thead>
+	
+	 #foreach($obj in $page.records)
+	     <tr>
+            <td>${obj.orderid}</td>
+			<td><a href="#springUrl('/zz91/admin/products/edit.htm?productid=')$!{obj.snapProductId}&companyid=$!{obj.sellerId}" target="_blank" >$!{obj.snapTitle}</a> </td>			
+            <td><a href="#springUrl('/zz91/crm/company/detail.htm?companyId=')$!{obj.sellerId}" target="_blank">$!{obj.sellerName}</a></td>
+            <td><a href="#springUrl('/zz91/crm/company/detail.htm?companyId=')$!{obj.buyerId}" target="_blank">$!{obj.buyerName}</a></td>
+            <td>$!{obj.number}</td>
+            <td>${obj.unitPrice}</td>
+            <td>$!{obj.trafficFee}#if($!{obj.isCashDelivery}==1)(货到付款) #else (在线支付) #end</td>
+            <td>$!{obj.amount}</td>
+            <td>
+				#if(${obj.state}=="00")          等待付款
+				#elseif(${obj.state}=="01")  付款中
+				#elseif(${obj.state}=="03")  卖家待发货
+				#elseif(${obj.state}=="04")  付款失败
+				#elseif(${obj.state}=="06")  已提醒发货
+				#elseif(${obj.state}=="11")  等待收货
+				#elseif(${obj.state}=="12")  交易成功
+				#elseif(${obj.state}=="13")  交易成功
+				#elseif(${obj.state}=="14")  已申请退货
+				#elseif(${obj.state}=="15")  卖家同意退货
+                #elseif(${obj.state}=="16")  退货已发货
+                #elseif(${obj.state}=="17")  退货成功
+                #elseif(${obj.state}=="18")  卖家不同意退货
+                #elseif(${obj.state}=="20")  交易关闭
+                #else  其他
+				#end
+			</td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{obj.createTime})</td>
+            <td>$!date.format('yyyy-MM-dd HH:mm:ss',$!{obj.updateTime})</td>
+            <td>
+				<a href="javascript:jIframe('leavewords.htm?id=$!{obj.custominfoId}&companyId=$!{companyId}', '留言','600','300');">留言</a>
+				<a href="javascript:jIframe('orderDetail.htm?id=$!{obj.id}', '订单详情','600','420');">订单详情</a>
+            </td>
+        </tr>
+	#end
+
+</table>
+
+<div class="inline pull-right page">
+	<div>
+		#myrcPageNav($!{page} "#springUrl('/zz91/sampleadmin/saleList.htm')" "snapTitle=$!{snapTitle}&sellerName=$!{sellerName}&companyId=$!{companyId}&state=$!{state}&datefrom=$!{from}&dateto=$!{to}&orderid=$!{orderid}&companyType=$!{companyType}&sort=$page.sort&dir=$page.dir" "")
+	</div>
+</div>
+
+</body>
+</html>
+<script>
+    $(function () {
+        
+		$('#addnew').click(function(){
+			window.location.href="sampleadd.htm";
+		});
+
+
+    });
+
+	function del(id)
+	{
+		if(confirm("确定要删除吗？"))
+		{
+			var url = "index.htm";
+			
+			window.location.href=url;		
+		}
+	}
+	
+		function listSort(sort){
+		var pageSort = sort;
+		var pageDir = "$page.dir";
+		
+		
+		if(pageDir=="desc"){
+			pageDir = "asc";
+		}else{
+			pageDir = "desc";
+		}
+		
+		jQuery("#sort").val(pageSort);
+		jQuery("#dir").val(pageDir);
+		
+		jQuery("#sampleListForm").submit();
+	}
+	
+</script>

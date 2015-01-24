@@ -1,0 +1,130 @@
+#set($layout="/layout/blank.vm")
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>订单详情</title>
+<link rel="stylesheet" type="text/css" href="http://img0.zz91.com/zz91/sample/admin/css/common.css">
+<link rel="stylesheet" type="text/css" href="http://img0.zz91.com/zz91/sample/admin/css/index.css">
+<style>
+body td{padding:10px}
+.line{
+	border-top-width: 1px;
+	border-top-style: solid;
+	border-top-color: #CCC;
+}
+.brue{color:#03C}
+</style>
+</head>
+<body>
+             <table class="tableListItem">
+                    <tr>
+                        <th colspan="8"><span>订单编号：${bill.orderid}</span><span>下单时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!{bill.createTime})</span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">
+							<span>
+								卖家公司：
+								#if($!{sellerCompany.membershipCode}=="10051000")
+									<a href="http://company.zz91.com/compinfo$!{sellerCompany.id}.htm"   target="_blank">$!{sellerCompany.name}</a>
+								#else
+									#if($!{sellerCompany}&&$!{sellerCompany.domainZz91})
+										<a href="http://$!{sellerCompany.domainZz91}.zz91.com"  target="_blank">$!{sellerCompany.name}</a>
+									#else
+										<a href="http://company.zz91.com/compinfo$!{buyerCompany.id}.htm"   target="_blank">$!{sellerCompany.name}</a>
+									#end
+								#end
+							</span>
+							<span>
+								买家公司：
+								#if($!{buyerCompany.membershipCode}=="10051000")
+									<a href="http://company.zz91.com/compinfo$!{buyerCompany.id}.htm"   target="_blank">$!{buyerCompany.name}</a>
+								#else
+									#if($!{buyerCompany}&&$!{buyerCompany.domainZz91})
+										<a href="http://$!{buyerCompany.domainZz91}.zz91.com"  target="_blank">$!{buyerCompany.name}</a>
+									#else
+										<a href="http://company.zz91.com/compinfo$!{buyerCompany.id}.htm"   target="_blank">$!{buyerCompany.name}</a>
+									#end
+								#end
+							</span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="8"><span>订单名称： <a target="_blank" href="http://yang.zz91.com/sale/$!{bill.snapProductId}.htm" class="prdName">$!{bill.snapTitle}</a></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="8"><span>产品小图：   <a href="http://yang.zz91.com/sale/$!{bill.snapProductId}.htm" target="_blank"> <img src="http://img3.zz91.com/80x80/$!{picList.picAddress}" alt="${bill.snapTitle}"/></a></span></th>
+                    </tr>
+                    <tr>
+                        <th colspan="8"><span>单价（元/件）：${bill.unitPrice}元</span>   <span>数量（件）：${bill.number}</span> </th>
+                    </tr>					
+                    <tr>
+                        <th colspan="8"><span>总重量（千克）：$!{bill.weight}</span></th>
+                    </tr>					
+                    <tr>
+                        <th colspan="8"><span>交易金额（元）：$!{bill.amount}   （#if($!{bill.isCashDelivery}==1) 不#end含运费：$!{bill.trafficFee} 元）</span></th>
+                    </tr>
+					
+					#if(${bill.state}=="00" ||${bill.state}=="01"  ||${bill.state}=="20" )
+					#else
+                    <tr>
+                        <th colspan="8"><span>支付方式：（平台账户: $!{bill.virtualAmount} ） +  （支付宝: $!{bill.channelAmount}） =  $!{bill.amount}   </span></th>
+                    </tr>
+					#end
+						
+                    <tr>
+                        <th colspan="8"><span>订单状态：									
+								#if(${bill.state}=="00")          等待付款
+                                    #elseif(${bill.state}=="01")  付款中
+                                    #elseif(${bill.state}=="03")  卖家待发货
+                                    #elseif(${bill.state}=="04")  付款失败
+									#elseif(${bill.state}=="06")  已提醒发货
+                                    #elseif(${bill.state}=="11")  等待收货
+                                    #elseif(${bill.state}=="12")  交易成功
+                                    #elseif(${bill.state}=="13")  交易成功
+                                    #elseif(${bill.state}=="14")  申请退货
+                                    #elseif(${bill.state}=="15")  卖家同意退货
+                                    #elseif(${bill.state}=="16")  退货已发货
+                                    #elseif(${bill.state}=="17")  退货成功
+                                    #elseif(${bill.state}=="20")  交易关闭
+                                    #else  其他
+									#end</span></th>
+                    </tr>	
+					
+					#if($!{bill.closeReason}) 
+                    <tr>
+                        <th colspan="8"><span>订单关闭原因：$!{bill.closeReason}</span></th>
+                    </tr>	
+					#end
+					
+					
+					#if($!{custominfo}) 
+                    <tr>
+                        <th colspan="8"><span>留言： 等级：$!{custominfo.level}  &nbsp;&nbsp;颜色：$!{custominfo.color}  &nbsp;&nbsp;#if($!{custominfo.useDes}&&$!{custominfo.useDes}!='') 用途：$!{custominfo.useDes} #end  #if($!{custominfo.memo}&&$!{custominfo.memo}!='')  &nbsp;&nbsp;描述：$!{custominfo.memo}  #end   </span></th>
+                    </tr>		
+					#end
+					
+					#if($!{bill.buyerAddr} && $!{bill.buyerAddr}!="")
+                        <tr>
+                            <th colspan="8"><span>买家收货地址：$!{bill.buyerAddr}</span></th>
+                        </tr>								
+					#else	
+    					#if($!{buyerAddr}) 
+                        <tr>
+                            <th colspan="8"><span>买家收货地址：$!{buyerAddr.address}  $!{buyerAddr.addressZip}　收货人：$!{buyerAddr.contact}　 $!{buyerAddr.mobile}</span></th>
+                        </tr>					
+    					#end
+					#end
+					
+					#if($!{bws} && $!{bws}!="") 
+                    <tr>
+                        <th colspan="8"><span>买家备忘：$!{bwb}</span></th>
+                    </tr>	
+					#end
+					#if($!{bwb} && $!{bws}!="") 
+                    <tr>
+                        <th colspan="8"><span>卖家备忘：$!{bws}</span></th>
+                    </tr>	
+					#end
+                </table>
+</body>
+</html>

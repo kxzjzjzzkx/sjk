@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-responsive.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/style.css')" />
+    <script type="text/javascript" src="#springUrl('/js/jquery.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.sorted.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/bootstrap.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/ckform.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/common.js')"></script>
+	
+	<!-- 
+	-->
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/jquery.alert.css">
+    <script type="text/javascript" src="#springUrl('/js/jquery-1.4.3.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.alert.js')"></script>
+	
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-datetimepicker.min.css')" />
+    <script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.js')" charset="UTF-8"></script>
+	<script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.zh-CN.js')" charset="UTF-8"></script>	
+	
+	<style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+
+</head>
+    <body>
+        <form id="sampleListForm" class="form-inline definewidth m20" action="renyuan.do" method="get" >
+        	员工姓名
+        	<input type="text" name="username" id="username"class="abc input-default" placeholder="" value="$!{username}"   style="width:100px"   />&nbsp;&nbsp;
+        	<button type="submit" class="btn btn-primary">查询</button>
+			|
+			<a href="user/add.do"><button type="button"  class="btn btn-primary">新人入职</button></a>
+			|
+			<select name="year" id="year" style="width:80px">
+				<option #if($yearStr=="2014") selected  #end value="2014">2014</option>
+				<option #if($yearStr=="2015") selected  #end value="2015">2015</option>
+				<option #if($yearStr=="2016") selected  #end value="2016">2016</option>
+				<option #if($yearStr=="2017") selected  #end value="2017">2017</option>
+				<option #if($yearStr=="2018") selected  #end value="2018">2018</option>
+				<option #if($yearStr=="2019") selected  #end value="2019">2019</option>
+				<option #if($yearStr=="2020") selected  #end value="2020">2020</option>
+				<option #if($yearStr=="2021") selected  #end value="2021">2021</option>
+				<option #if($yearStr=="2022") selected  #end value="2022">2022</option>
+				<option #if($yearStr=="2023") selected  #end value="2023">2023</option>
+				<option #if($yearStr=="2024") selected  #end value="2024">2024</option>
+				<option #if($yearStr=="2025") selected  #end value="2025">2025</option>
+			</select>
+			年
+			<select name="month" id="month" style="width:80px">
+				<option value="1" selected >1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+				<option value="12">12</option>
+			</select>
+			月份
+			|
+			生活费（不填默认15元/天）
+			<input type="text" name="shenghuofei" id="shenghuofei" value="" style="width:50px" />
+			<button type="button"  class="btn btn-primary" id="exportSelect">导出选中工资</button>
+			<button type="button"  class="btn btn-primary" id="exportAll">导出所有员工工资</button>
+			|
+			<button type="button"  class="btn btn-primary" id="importKaoqin">录入选中工时</button>
+			<button type="button"  class="btn btn-primary" id="importAllKaoqin">录入所有员工工时</button>
+			<script type="text/javascript">
+				jQuery("#exportSelect").click(function(){
+					var rid = "0";
+					jQuery(".cb-for").each(function(){
+						if(this.checked){
+							rid = rid+","+this.value
+						}
+					});
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					var shenghuofei = jQuery("#shenghuofei").val();
+					window.location.href="#springUrl('/export/index.do?rIds=')"+rid+"&year="+year+"&month="+month+"&shenghuofei="+shenghuofei;
+				});
+				jQuery("#exportAll").click(function(){
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					window.location.href="#springUrl('/export/index.do?allFlag=1&year=')"+year+"&month="+month+"&shenghuofei="+shenghuofei
+				});
+				jQuery("#importKaoqin").click(function(){
+					var rid = "0";
+					jQuery(".cb-for").each(function(){
+						if(this.checked){
+							rid = rid+","+this.value
+						}
+					});
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					window.location.href="#springUrl('/kaoqin/index.do?rIds=')"+rid+"&year="+year+"&month="+month;
+				});
+				jQuery("#importAllKaoqin").click(function(){
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					window.location.href="#springUrl('/kaoqin/index.do?allFlag=1&year=')"+year+"&month="+month
+				});
+            </script>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10" >
+        	<thead>
+        		<tr>
+        			<th style="text-align:center"><input type="checkbox" id="cb-all" value="0" /></th>
+        			<th>员工姓名</th>
+        			<th>工资（单位：人民币）</th>
+        			<th>入职时间</th>
+        			<th>操作</th>
+        		</tr>
+        	</thead>
+        	#foreach($obj in $page.records)
+        		<tr>
+        			<td  style="text-align:center"><input type="checkbox" name="checkbox" class="cb-for" id="cb$!{obj.id}" value="$!{obj.id}" /></td>
+        			<td>
+						$!{obj.username}
+					</td>
+        			<td>
+						$!{obj.usermoney}.00 元
+					</td>
+        			<td>
+						#printFragmentDate("yyyy-MM-dd",$!{obj.gmtIn})
+					</td>
+					<td>
+						<a href="#springUrl('/user/edit.do?id=')$!{obj.id}">修改资料</a> || 
+						<a href="#springUrl('/export/index.do?rIds=')$!{obj.id}">导出最近月工资</a> || 
+						<a href="#springUrl('/kaoqin/index.do?rIds=')$!{obj.id}">录入考勤</a> || 
+						<a href="#springUrl('/zhichu.do?rid=')$!{obj.id}">提前支出</a> || 
+						<a onclick="checkById($!{obj.id})">工资明细</a> ||
+						<a onclick="deleteById($!{obj.id})" style="color:red">火爆离职</a>
+					</td>
+        		</tr>
+        	#end
+			<script type="text/javascript">
+				// 删除员工
+        		function deleteById(id){
+        			if(confirm('确定要删除该员工？删除后，考勤数据将无法恢复')){
+        				window.location='#springUrl('/user/doDelete.do?id=')'+id
+        			}
+        			return false;
+        		}
+				// 明细页面
+				function checkById(id){
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					var shenghuofei = jQuery("#shenghuofei").val();
+        			window.location='#springUrl('/export/check.do?rid=')'+id+"&year="+year+"&month="+month+"&shenghuofei="+shenghuofei;
+        		}
+				
+				// 全选
+				jQuery("#cb-all").click(function(){
+					if(jQuery("#cb-all").attr("checked")){
+    					jQuery(".cb-for").each(function(){
+    						this.checked = true;
+    					});
+					}else{
+						jQuery(".cb-for").each(function(){
+							this.checked = false;
+    					});
+					}
+				});
+				
+            </script>
+        </table>
+        <div class="inline pull-right page">
+        	<div>
+        		#page($!{page} "#springUrl('/renyuan.do')" "" "")
+        	</div>
+        </div>
+    </body>
+</html>
