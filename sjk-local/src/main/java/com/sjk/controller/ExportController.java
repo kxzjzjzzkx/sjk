@@ -144,13 +144,19 @@ public class ExportController {
 			kaoqin.setTo(DateUtil.toString(toDate, "yyyy-M-d"));
 			kaoqin.setRid(Integer.valueOf(id));
 			List<Kaoqin> kaoqinList = kaoqinService.list(kaoqin);
+			Integer days = 0;
+			for (Kaoqin obj :kaoqinList) {
+				if (obj.getTimeWork()>0) {
+					days++;
+				}
+			}
 			//工时
 			Float timeWork = 0f;
 			for (Kaoqin obj:kaoqinList) {
 				timeWork = timeWork + obj.getTimeWork();
 			}
 			ws.addCell(new Label(6,i,""+timeWork)); // 总工时
-			Integer shenghuofeiMN = kaoqinList.size()*Integer.valueOf(shenghuofei);
+			Integer shenghuofeiMN = days*Integer.valueOf(shenghuofei);
 			ws.addCell(new Label(4,i,""+shenghuofeiMN)); // 生活费 工作 天数*15 
 			
 			// 实发工资 = 日工资 / 9 * 工时 - 支出 - 生活费(工作天数*生活费额度)
@@ -225,6 +231,12 @@ public class ExportController {
 		kaoqin.setTo(DateUtil.toString(toDate, "yyyy-M-d"));
 		kaoqin.setRid(rid);
 		List<Kaoqin> kaoqinList = kaoqinService.list(kaoqin);
+		Integer days = 0;
+		for (Kaoqin obj :kaoqinList) {
+			if (obj.getTimeWork()>0) {
+				days++;
+			}
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		for (Kaoqin obj:kaoqinList) {
 			map.put(DateUtil.toString(obj.getGmtWork(), "yyyy-M-d"), String.valueOf(obj.getTimeWork()));
@@ -237,7 +249,7 @@ public class ExportController {
 			timeWork = timeWork + obj.getTimeWork();
 		}
 		out.put("timeWork", timeWork); // 总工时
-		Integer shenghuofeiMN = kaoqinList.size()*Integer.valueOf(shenghuofei);
+		Integer shenghuofeiMN = days*Integer.valueOf(shenghuofei);
 		out.put("shenghuofeiMN", shenghuofeiMN); // 生活费 工作 天数*15 
 		
 		// 实发工资 = 日工资 / 9 * 工时 - 支出 - 生活费(工作天数*生活费额度)

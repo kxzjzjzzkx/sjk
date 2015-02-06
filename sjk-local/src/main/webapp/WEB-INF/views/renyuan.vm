@@ -67,18 +67,18 @@
 			</select>
 			年
 			<select name="month" id="month" style="width:80px">
-				<option value="1" selected >1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-				<option value="12">12</option>
+				<option #if($monthStr=="1") selected value="1" #end>1</option>
+				<option #if($monthStr=="2") selected value="2" #end>2</option>
+				<option #if($monthStr=="3") selected value="3" #end>3</option>
+				<option #if($monthStr=="4") selected value="4" #end>4</option>
+				<option #if($monthStr=="5") selected value="5" #end>5</option>
+				<option #if($monthStr=="6") selected value="6" #end>6</option>
+				<option #if($monthStr=="7") selected  value="7" #end>7</option>
+				<option #if($monthStr=="8") selected  value="8" #end>8</option>
+				<option #if($monthStr=="9") selected  value="9" #end>9</option>
+				<option #if($monthStr=="10") selected  value="10" #end>10</option>
+				<option #if($monthStr=="11") selected  value="11" #end>11</option>
+				<option #if($monthStr=="12") selected  value="12" #end>12</option>
 			</select>
 			月份
 			|

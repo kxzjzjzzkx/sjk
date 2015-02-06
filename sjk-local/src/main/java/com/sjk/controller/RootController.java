@@ -56,6 +56,7 @@ public class RootController {
 			out.put("username", renyuan.getUsername());
 		}
 		out.put("yearStr", DateUtil.toString(new Date(), "yyyy"));
+		out.put("monthStr", DateUtil.toString(new Date(), "M"));
 	}
 	
 	/**

@@ -44,8 +44,6 @@
 </head>
     <body>
         <form id="kaoqinId" class="form-inline definewidth m20" action="index.do" method="get" >
-			$!{userStr}
-			<br/>
 			<select name="year" id="year">
 				<option #if($yearStr=="2014") selected  #end value="2014">2014</option>
 				<option #if($yearStr=="2015") selected  #end value="2015">2015</option>
@@ -78,6 +76,18 @@
 			月份
         	<button type="submit" class="btn btn-primary">查询</button>
 			<input type="hidden" id="rid" name="rIds" value="$!{rid}" />
+			所有员工:
+			<select id="selectRid" name="addRid">
+				<option value="" >--请选择--</option>
+				#foreach($obj in $allUser)
+					<option value="$obj.id" >$obj.username</option>
+				#end
+			</select>
+			<script type="text/javascript">
+				jQuery("#selectRid").change(function(){
+					jQuery("#kaoqinId").submit();
+				});
+            </script>
         </form>
         <table class="table table-bordered table-hover definewidth m10" border="1px" >
         	<thead>
@@ -89,82 +99,107 @@
 ##        			<th>操作</th>
         		</tr>
         	</thead>
-        		<tr>
-					#foreach($i in [1..$days])
-    					#if(10>=$velocityCount)
-                			<td>
-        						$!{todayStr}-$velocityCount
-        					</td>
-    					#end
-					#end
-        		</tr>
 				<tr>
-					#foreach($i in [1..$days])
-    					#if(10>=$velocityCount)
-                			<td>
-								#set($str = $!{todayStr}+"-"+$!{velocityCount})
-        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
-        					</td>
-    					#end
+					<td>
+						人员名:&nbsp;
+					</td>
+					#foreach($user in $userList)
+						<td>
+							$user.username
+						</td>
 					#end
-        		</tr>
+				</tr>
+				#foreach($i in [1..$days])
+					<tr>
+                		<td>
+        					$!{todayStr}-$velocityCount
+        				</td>
+						#set($str = $!{todayStr}+"-"+$!{velocityCount})
+						#foreach($user in $userList)
+							<td>
+								#set($key = $str+"-"+$user.id)
+								<input type="text" style="width:30px" class="timeWork" id="$str" value="$!{resultMap.get($key)}" />
+							</td>
+						#end
+					</tr>
+				#end
 				<tr>
-					#foreach($i in [1..$days])
-    					#if(20>=$velocityCount&&$velocityCount>10)
-                			<td >
-        						$!{todayStr}-$velocityCount
-        					</td>
-    					#end
+					<td>
+						人员名:&nbsp;
+					</td>
+					#foreach($user in $userList)
+						<td>
+							$user.username
+						</td>
 					#end
-        		</tr>
-				<tr>
-					#foreach($i in [1..$days])
-    					#if(20>=$velocityCount&&$velocityCount>10)
-                			<td >
-								#set($str = $!{todayStr}+"-"+$!{velocityCount})
-        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
-        					</td>
-    					#end
-					#end
-        		</tr>
-				<tr>
-					#foreach($i in [1..$days])
-    					#if(30>=$velocityCount&&$velocityCount>20)
-                			<td >
-        						$!{todayStr}-$velocityCount
-        					</td>
-    					#end
-					#end
-        		</tr>
-				<tr>
-					#foreach($i in [1..$days])
-    					#if(30>=$velocityCount&&$velocityCount>20)
-                			<td >
-								#set($str = $!{todayStr}+"-"+$!{velocityCount})
-        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
-        					</td>
-    					#end
-					#end
-        		</tr>
-				<tr>
-					#foreach($i in [1..$days])
-    					#if($velocityCount>30)
-							<td >
-        						$!{todayStr}-$velocityCount
-        					</td>
-    					#end
-					#end
-        		</tr>
-				<tr>
-					#foreach($i in [1..$days])
-    					#if($velocityCount>30)
-                			<td >
-								#set($str = $!{todayStr}+"-"+$!{velocityCount})
-        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
-        					</td>
-    					#end
-					#end
-        		</tr>
+				</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if(10>=$velocityCount)
+##                			<td>
+##								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+##        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if(20>=$velocityCount&&$velocityCount>10)
+##                			<td >
+##        						$!{todayStr}-$velocityCount
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if(20>=$velocityCount&&$velocityCount>10)
+##                			<td >
+##								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+##        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if(30>=$velocityCount&&$velocityCount>20)
+##                			<td >
+##        						$!{todayStr}-$velocityCount
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if(30>=$velocityCount&&$velocityCount>20)
+##                			<td >
+##								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+##        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if($velocityCount>30)
+##							<td >
+##        						$!{todayStr}-$velocityCount
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
+##				<tr>
+##					#foreach($i in [1..$days])
+##    					#if($velocityCount>30)
+##                			<td >
+##								#set($str = $!{todayStr}+"-"+$!{velocityCount})
+##        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
+##        					</td>
+##    					#end
+##					#end
+##        		</tr>
         </table>
         <div class="inline pull-right page">
         	<div>
@@ -177,9 +212,8 @@
 					jQuery.ajax({
 						url:"doAdd.do",
 						data:{
-							"day":this.id,
-							"timeWork":this.value,
-							"rid":jQuery("#rid").val()
+							"dayAndRid":this.id,
+							"timeWork":this.value
 							},
 						dataType:'json'
 					})
