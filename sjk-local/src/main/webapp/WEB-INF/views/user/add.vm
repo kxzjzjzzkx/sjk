@@ -42,8 +42,15 @@
 		<td><input type="text" name="username"/></td>
 	</tr>
 	<tr>
-		<td class="tableleft">工资</td>
-		<td><input type="text" name="usermoney"/></td>
+		<td class="tableleft">工资(日薪)</td>
+		<td>
+			##<input type="text" name="usermoney" placeholder="0"/>
+			<input type="text" name="usermoney" value="0" onblur="(this.value=='')?this.value='0':this.value" onfocus="if(this.value=='0'){this.value='';}">
+		</td>
+	</tr>
+	<tr>
+		<td class="tableleft">工资(月薪)</td>
+		<td><input type="text" name="usermoneyMonth" value="0"  onblur="(this.value=='')?this.value='0':this.value" onfocus="if(this.value=='0'){this.value='';}" /></td>
 	</tr>
 	<tr>
 		<td class="tableleft">入职时间</td>

@@ -15,6 +15,7 @@
 		<result property="usermoney" column="usermoney" jdbcType="int" javaType="int" />
 		<result property="gmtCreated" column="gmt_created" />
 		<result property="gmtModified" column="gmt_modified" />
+		<result property="usermoneyMonth" column="usermoney_month" jdbcType="int" javaType="String" />
 	</resultMap>
 
 	<sql id="defaultColumn">
@@ -22,18 +23,29 @@
 		username,
 		gmt_in,
 		usermoney,
+		usermoney_month,
 		gmt_created,
 		gmt_modified
 	</sql>
-
+	
+	<sql id="listColumn">
+		a.id,
+		a.username,
+		a.gmt_in,
+		a.usermoney,
+		a.usermoney_month,
+		a.gmt_created,
+		a.gmt_modified
+	</sql>
+	
 	<insert id="insert" parameterClass="renyuanDomain">
 		insert into renyuan
 		(
-		username,gmt_in,usermoney,gmt_created,gmt_modified
+		username,gmt_in,usermoney,usermoney_month,gmt_created,gmt_modified
 		)
 		values
 		(
-		#username#,#gmtIn#,#usermoney#,#gmtCreated#,#gmtModified#
+		#username#,#gmtIn#,#usermoney#,#usermoneyMonth#,#gmtCreated#,#gmtModified#
 		)
 		<selectKey resultClass="int" type="post" keyProperty="id">
 			select @@IDENTITY as [value]
@@ -49,6 +61,9 @@
 		</isNotEmpty>
 		<isNotNull property="usermoney" prepend=",">
 			usermoney = #usermoney#
+		</isNotNull>
+		<isNotNull property="usermoneyMonth" prepend=",">
+			usermoney_month = #usermoneyMonth#
 		</isNotNull>
 		<isNotNull property="gmtIn" prepend=",">
 			gmt_in = #gmtIn#
@@ -72,24 +87,27 @@
 	<sql id="whereCase">
 		<dynamic prepend="where">
 			<isNotEmpty prepend="and" property="renyuan.username">
-				username like '%$renyuan.username$%' 
+				a.username like '%$renyuan.username$%' 
 			</isNotEmpty>
 			<isNotNull prepend="and" property="renyuan.gmtIn">
-				gmt_in = #renyuan.gmtIn#
+				a.gmt_in = #renyuan.gmtIn#
+			</isNotNull>
+			<isNotNull prepend="and" property="renyuan.from">
+				exists (select k.id from kaoqin k where k.rid = a.id and k.time_work > 0 and k.gmt_work >= #renyuan.from# and #renyuan.to# > k.gmt_work  )
 			</isNotNull>
 		</dynamic>
 	</sql>
 
 	<select id="list" parameterClass="java.util.Map" resultMap="renyuanResult">
 		select
-		<include refid="defaultColumn" />
-		from renyuan
+		<include refid="listColumn" />
+		from renyuan as a
 		<include refid="whereCase"/>
 	</select>
 
 	<select id="count" parameterClass="java.util.Map" resultClass="java.lang.Integer">
-		select count(id)
-		from renyuan
+		select count(0)
+		from renyuan as a
 		<include refid="whereCase"/>
 	</select>
 

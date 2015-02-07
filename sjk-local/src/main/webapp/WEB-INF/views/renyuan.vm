@@ -123,14 +123,26 @@
 					var month = jQuery("#month").val();
 					window.location.href="#springUrl('/kaoqin/index.do?allFlag=1&year=')"+year+"&month="+month
 				});
+				
+				jQuery("#month").change(function(){
+					jQuery("#sampleListForm").submit();
+				});
+				jQuery("#year").change(function(){
+					jQuery("#sampleListForm").submit();
+				});
+				
             </script>
         </form>
+		<p>
+			$yearStr 年 $monthStr 月
+		</p>
         <table class="table table-bordered table-hover definewidth m10" >
         	<thead>
         		<tr>
         			<th style="text-align:center"><input type="checkbox" id="cb-all" value="0" /></th>
         			<th>员工姓名</th>
-        			<th>工资（单位：人民币）</th>
+        			<th>日资（单位：人民币）</th>
+					<th>月资（单位：人民币）</th>
         			<th>入职时间</th>
         			<th>操作</th>
         		</tr>
@@ -143,6 +155,9 @@
 					</td>
         			<td>
 						$!{obj.usermoney}.00 元
+					</td>
+					<td>
+						$!{obj.usermoneyMonth}.00 元
 					</td>
         			<td>
 						#printFragmentDate("yyyy-MM-dd",$!{obj.gmtIn})

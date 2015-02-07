@@ -17,9 +17,13 @@ public class Renyuan implements Serializable {
 	private Integer id;
 	private String username;
 	private Date gmtIn;
-	private int usermoney;
+	private int usermoney; // 日薪
 	private Date gmtCreated;
 	private Date gmtModified;
+	private String usermoneyMonth; // 月薪
+	
+	private String from;
+	private String to;
 
 	public Integer getId() {
 		return id;
@@ -68,5 +72,31 @@ public class Renyuan implements Serializable {
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
 	}
+
+	public String getUsermoneyMonth() {
+		return usermoneyMonth;
+	}
+
+	public void setUsermoneyMonth(String usermoneyMonth) {
+		this.usermoneyMonth = usermoneyMonth;
+	}
+
+	public String getFrom() {
+		return from;
+	}
+
+	public void setFrom(String from) {
+		this.from = from;
+	}
+
+	public String getTo() {
+		return to;
+	}
+
+	public void setTo(String to) {
+		this.to = to;
+	}
+	
+	
 
 }

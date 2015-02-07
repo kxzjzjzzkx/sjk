@@ -81,13 +81,14 @@
 				<option value="" >--请选择--</option>
 				#foreach($obj in $allUser)
 					<option value="$obj.id" >$obj.username</option>
-				#end
+				#end$!{user.id}
 			</select>
 			<script type="text/javascript">
 				jQuery("#selectRid").change(function(){
 					jQuery("#kaoqinId").submit();
 				});
             </script>
+			<input type="hidden" name="delRid" id="delRid" value="" />
         </form>
         <table class="table table-bordered table-hover definewidth m10" border="1px" >
         	<thead>
@@ -105,7 +106,7 @@
 					</td>
 					#foreach($user in $userList)
 						<td>
-							$user.username
+							$user.username|<button onclick="delByRid($!{user.id})">删除</button>
 						</td>
 					#end
 				</tr>
@@ -118,7 +119,7 @@
 						#foreach($user in $userList)
 							<td>
 								#set($key = $str+"-"+$user.id)
-								<input type="text" style="width:30px" class="timeWork" id="$str" value="$!{resultMap.get($key)}" />
+								<input type="text" style="width:30px" class="timeWork" id="$key" value="$!{resultMap.get($key)}" />
 							</td>
 						#end
 					</tr>
@@ -140,7 +141,7 @@
 ##								#set($str = $!{todayStr}+"-"+$!{velocityCount})
 ##        						<input type="text" style="width:30px" class="timeWork" id="$!{todayStr}-$!{velocityCount}" value="$!{map.get($str)}" />
 ##        					</td>
-##    					#end
+##    					#end$!{user.id}
 ##					#end
 ##        		</tr>
 ##				<tr>
@@ -218,8 +219,11 @@
 						dataType:'json'
 					})
 				})
-			
 			})
+			function delByRid(rid){
+				jQuery("#delRid").val(rid);
+				jQuery("#kaoqinId").submit();
+			}
         </script>
     </body>
 </html>

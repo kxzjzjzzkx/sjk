@@ -49,7 +49,7 @@ public class KaoqinController {
 	 * @throws UnsupportedEncodingException 
 	 */
 	@RequestMapping
-	public void index(Map<String, Object>out,String rIds,Kaoqin kaoqin,String year,String month,String allFlag,String addRid) throws ParseException, UnsupportedEncodingException{
+	public void index(Map<String, Object>out,String rIds,Kaoqin kaoqin,String year,String month,String allFlag,String addRid,String delRid) throws ParseException, UnsupportedEncodingException{
 		if (StringUtils.isNotEmpty(year)&&StringUtils.isNotEmpty(month)) {
 			Date from = DateUtil.getDate(year+"-"+month+"-"+"1", "yyyy-M-d");
 			Date to = DateUtil.getDateAfterMonths(from, 1);
@@ -66,17 +66,28 @@ public class KaoqinController {
 			out.put("days", DateUtil.getIntervalDays(DateUtil.getDateAfterMonths(DateUtil.getDate(new Date(), "yyyy-MM-01"), 1),DateUtil.getDate(new Date(), "yyyy-MM-01")));
 		}
 		PageDto<Renyuan> page = renyuanService.page(new Renyuan(), new PageDto<Renyuan>());
+		Set<String> idSet = new HashSet<String>();
+		// 添加的人
 		if (StringUtils.isNumber(addRid)) {
+			rIds = rIds + ","+addRid;
+		}
+		
+		// 获取选中人员 去除重复
+		if (StringUtils.isNotEmpty(rIds)) {
 			String [] idArr = rIds.split(",");
-			Set<String> idSet = new HashSet<String>();
 			for (String id:idArr) {
 				idSet.add(id);
 			}
-			idSet.add(addRid);
-			rIds = "";
-			for (String id: idSet) {
-				rIds = rIds+ ","+ id;
-			}
+		}
+		
+		// 删除某一个人 若考勤仅剩一人。。则不删 
+		if (idSet.size()>1&&StringUtils.isNumber(delRid)) {
+			idSet.remove(delRid);
+		}
+		
+		rIds = "";
+		for (String id: idSet) {
+			rIds = rIds+ ","+ id;
 		}
 		// 获取所选人员信息
 		String[] ridArray = null;

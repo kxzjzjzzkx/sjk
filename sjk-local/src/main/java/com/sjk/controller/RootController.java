@@ -6,6 +6,7 @@
 package com.sjk.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.Map;
 
@@ -46,17 +47,36 @@ public class RootController {
 	 * 人员页 
 	 * @param out
 	 * @throws UnsupportedEncodingException 
+	 * @throws ParseException 
 	 */
 	@RequestMapping
-	public void renyuan(Map<String, Object>out,PageDto<Renyuan> page,Renyuan renyuan) throws UnsupportedEncodingException{
+	public void renyuan(Map<String, Object>out,PageDto<Renyuan> page,Renyuan renyuan,String year,String month) throws UnsupportedEncodingException, ParseException{
 		page.setPageSize(18);
+		
+		// 选择时间
+		if (StringUtils.isEmpty(year)||StringUtils.isEmpty(month)) {
+			renyuan.setFrom(DateUtil.toString(new Date(), "yyyy-M-1"));
+			renyuan.setTo(DateUtil.toString(DateUtil.getDateAfterMonths(new Date(), 1), "yyyy-M-1"));
+		}else{
+			renyuan.setFrom(DateUtil.toString(DateUtil.getDate(year+"-"+month+"-1", "yyyy-M-d"), "yyyy-M-1"));
+			renyuan.setTo(DateUtil.toString(DateUtil.getDateAfterMonths(DateUtil.getDate(year+"-"+month+"-1", "yyyy-M-d"), 1), "yyyy-M-1"));
+		}
+		
 		page = renyuanService.page(renyuan, page);
 		out.put("page", page);
 		if (StringUtils.isNotEmpty(renyuan.getUsername())) {
 			out.put("username", renyuan.getUsername());
 		}
-		out.put("yearStr", DateUtil.toString(new Date(), "yyyy"));
-		out.put("monthStr", DateUtil.toString(new Date(), "M"));
+		if (StringUtils.isNumber(year)) {
+			out.put("yearStr", year);
+		}else{
+			out.put("yearStr", DateUtil.toString(new Date(), "yyyy"));
+		}
+		if (StringUtils.isNumber(month)) {
+			out.put("monthStr", month);
+		}else{
+			out.put("monthStr", DateUtil.toString(new Date(), "M"));
+		}
 	}
 	
 	/**

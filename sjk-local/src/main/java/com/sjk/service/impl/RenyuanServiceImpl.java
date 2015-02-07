@@ -30,6 +30,13 @@ public class RenyuanServiceImpl implements RenyuanService{
 	public Integer create(Renyuan renyuan) {
 		renyuan.setGmtCreated(new Date());
 		renyuan.setGmtModified(new Date());
+		if (renyuan.getUsermoney()<=0) {
+			renyuan.setUsermoney(0);
+		}
+		if (!StringUtils.isNumber(renyuan.getUsermoneyMonth())) {
+			renyuan.setUsermoneyMonth("0");
+		}
+		
 		return renyuanDao.insert(renyuan);
 	}
 
