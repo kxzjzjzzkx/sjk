@@ -81,7 +81,7 @@
 				<option value="" >--请选择--</option>
 				#foreach($obj in $allUser)
 					<option value="$obj.id" >$obj.username</option>
-				#end$!{user.id}
+				#end
 			</select>
 			<script type="text/javascript">
 				jQuery("#selectRid").change(function(){

@@ -124,18 +124,8 @@
 					window.location.href="#springUrl('/kaoqin/index.do?allFlag=1&year=')"+year+"&month="+month
 				});
 				
-				jQuery("#month").change(function(){
-					jQuery("#sampleListForm").submit();
-				});
-				jQuery("#year").change(function(){
-					jQuery("#sampleListForm").submit();
-				});
-				
             </script>
         </form>
-		<p>
-			$yearStr 年 $monthStr 月
-		</p>
         <table class="table table-bordered table-hover definewidth m10" >
         	<thead>
         		<tr>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-responsive.css')" />
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/style.css')" />
+    <script type="text/javascript" src="#springUrl('/js/jquery.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.sorted.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/bootstrap.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/ckform.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/common.js')"></script>
+	
+	<!-- 
+	-->
+    <link rel="stylesheet" type="text/css" href="#springUrl('/')css/jquery.alert.css">
+    <script type="text/javascript" src="#springUrl('/js/jquery-1.4.3.js')"></script>
+    <script type="text/javascript" src="#springUrl('/js/jquery.alert.js')"></script>
+	
+    <link rel="stylesheet" type="text/css" href="#springUrl('/css/bootstrap-datetimepicker.min.css')" />
+    <script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.js')" charset="UTF-8"></script>
+	<script type="text/javascript" src="#springUrl('/js/bootstrap-datetimepicker.zh-CN.js')" charset="UTF-8"></script>	
+	
+	<style type="text/css">
+        body {
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+
+        @media (max-width: 980px) {
+            /* Enable use of floated navbar text */
+            .navbar-text.pull-right {
+                float: none;
+                padding-left: 5px;
+                padding-right: 5px;
+            }
+        }
+
+
+    </style>
+
+</head>
+    <body>
+        <form id="sampleListForm" class="form-inline definewidth m20" action="manage.do" method="get" >
+			所有员工:
+			<select id="selectRid" name="addRid">
+				<option value="" >--请选择--</option>
+				#foreach($obj in $allUser)
+					<option value="$obj.id" >$obj.username</option>
+				#end
+			</select>
+        	<button type="submit" class="btn btn-primary">加入</button>
+			<br/>
+		##	<a href="user/add.do"><button type="button"  class="btn btn-primary">新人入职</button></a>
+		##	|
+			<select name="year" id="year" style="width:80px">
+				<option #if($yearStr=="2014") selected  #end value="2014">2014</option>
+				<option #if($yearStr=="2015") selected  #end value="2015">2015</option>
+				<option #if($yearStr=="2016") selected  #end value="2016">2016</option>
+				<option #if($yearStr=="2017") selected  #end value="2017">2017</option>
+				<option #if($yearStr=="2018") selected  #end value="2018">2018</option>
+				<option #if($yearStr=="2019") selected  #end value="2019">2019</option>
+				<option #if($yearStr=="2020") selected  #end value="2020">2020</option>
+				<option #if($yearStr=="2021") selected  #end value="2021">2021</option>
+				<option #if($yearStr=="2022") selected  #end value="2022">2022</option>
+				<option #if($yearStr=="2023") selected  #end value="2023">2023</option>
+				<option #if($yearStr=="2024") selected  #end value="2024">2024</option>
+				<option #if($yearStr=="2025") selected  #end value="2025">2025</option>
+			</select>
+			<b style="color:red">年</b>
+			<select name="month" id="month" style="width:80px">
+				<option #if($monthStr=="1") selected value="1" #end>1</option>
+				<option #if($monthStr=="2") selected value="2" #end>2</option>
+				<option #if($monthStr=="3") selected value="3" #end>3</option>
+				<option #if($monthStr=="4") selected value="4" #end>4</option>
+				<option #if($monthStr=="5") selected value="5" #end>5</option>
+				<option #if($monthStr=="6") selected value="6" #end>6</option>
+				<option #if($monthStr=="7") selected  value="7" #end>7</option>
+				<option #if($monthStr=="8") selected  value="8" #end>8</option>
+				<option #if($monthStr=="9") selected  value="9" #end>9</option>
+				<option #if($monthStr=="10") selected  value="10" #end>10</option>
+				<option #if($monthStr=="11") selected  value="11" #end>11</option>
+				<option #if($monthStr=="12") selected  value="12" #end>12</option>
+			</select>
+			<b style="color:red">月份</b>
+			<br/>
+			时间范围：
+			<select name="fromYear" class="selectDate" id="fromYear" style="width:80px">
+				<option #if($fromYearStr=="2014") selected  #end value="2014">2014</option>
+				<option #if($fromYearStr=="2015") selected  #end value="2015">2015</option>
+				<option #if($fromYearStr=="2016") selected  #end value="2016">2016</option>
+				<option #if($fromYearStr=="2017") selected  #end value="2017">2017</option>
+				<option #if($fromYearStr=="2018") selected  #end value="2018">2018</option>
+				<option #if($fromYearStr=="2019") selected  #end value="2019">2019</option>
+				<option #if($fromYearStr=="2020") selected  #end value="2020">2020</option>
+				<option #if($fromYearStr=="2021") selected  #end value="2021">2021</option>
+				<option #if($fromYearStr=="2022") selected  #end value="2022">2022</option>
+				<option #if($fromYearStr=="2023") selected  #end value="2023">2023</option>
+				<option #if($fromYearStr=="2024") selected  #end value="2024">2024</option>
+				<option #if($fromYearStr=="2025") selected  #end value="2025">2025</option>
+			</select>
+			<b>年</b>
+			——
+			<select name="toYear" class="selectDate" id="toYear" style="width:160px">
+				<option value="">请选择结束时间</option>
+				<option #if($toYearStr=="2014") selected  #end value="2014">2014</option>
+				<option #if($toYearStr=="2015") selected  #end value="2015">2015</option>
+				<option #if($toYearStr=="2016") selected  #end value="2016">2016</option>
+				<option #if($toYearStr=="2017") selected  #end value="2017">2017</option>
+				<option #if($toYearStr=="2018") selected  #end value="2018">2018</option>
+				<option #if($toYearStr=="2019") selected  #end value="2019">2019</option>
+				<option #if($toYearStr=="2020") selected  #end value="2020">2020</option>
+				<option #if($toYearStr=="2021") selected  #end value="2021">2021</option>
+				<option #if($toYearStr=="2022") selected  #end value="2022">2022</option>
+				<option #if($toYearStr=="2023") selected  #end value="2023">2023</option>
+				<option #if($toYearStr=="2024") selected  #end value="2024">2024</option>
+				<option #if($toYearStr=="2025") selected  #end value="2025">2025</option>
+			</select>
+			<b>年</b>
+			<p id="selectDate">
+				
+			</p>
+			<br/>
+			生活费（不填默认15元/天）
+			<input type="text" name="shenghuofei" id="shenghuofei" value="" style="width:50px" />
+			<button type="button"  class="btn btn-primary" id="exportSelect">导出选中工资</button>
+			|
+			<button type="button"  class="btn btn-primary" id="importKaoqin">录入选中考勤</button>
+			<input type="hidden" name="fromYearStr" value="$fromYearStr" />
+			<input type="hidden" name="toYearStr" value="$toYearStr" />
+			<input type="hidden" name="existId" value="$existId" />
+			<script type="text/javascript">
+			
+				jQuery("#exportSelect").click(function(){
+					var rid = "0";
+					jQuery(".cb-for").each(function(){
+						if(this.checked){
+							rid = rid+","+this.value
+						}
+					});
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					var shenghuofei = jQuery("#shenghuofei").val();
+					window.location.href="#springUrl('/export/index.do?rIds=')"+rid+"&year="+year+"&month="+month+"&shenghuofei="+shenghuofei;
+				});
+				
+				jQuery("#importKaoqin").click(function(){
+					var rid = "0";
+					jQuery(".cb-for").each(function(){
+						if(this.checked){
+							rid = rid+","+this.value
+						}
+					});
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					window.location.href="#springUrl('/kaoqin/index.do?rIds=')"+rid+"&year="+year+"&month="+month;
+				});
+				
+				// 考勤年月选择
+				jQuery("#month").change(function(){
+					jQuery("#sampleListForm").submit();
+				});
+				jQuery("#year").change(function(){
+					jQuery("#sampleListForm").submit();
+				});
+				
+				#if($fromYearStr)
+					var fromYear = jQuery("#fromYear").val();
+					var toYear = jQuery("#toYear").val();
+					var tempYear = toYear - fromYear;
+					if(tempYear<0){
+						return false;
+					}
+					var html = "";
+					for(;tempYear>=0;tempYear--){
+						var yearStr = toYear - tempYear;
+						html = html + 
+									"<a href='manage.do?month=1&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年1月</a>&nbsp;|"+
+									"<a href='manage.do?month=2&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年2月</a>&nbsp;|"+
+									"<a href='manage.do?month=3&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年3月</a>&nbsp;|"+
+									"<a href='manage.do?month=4&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年4月</a>&nbsp;|"+
+									"<a href='manage.do?month=5&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年5月</a>&nbsp;|"+
+									"<a href='manage.do?month=6&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年6月</a>&nbsp;|"+
+									"<a href='manage.do?month=7&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年7月</a>&nbsp;|"+
+									"<a href='manage.do?month=8&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年8月</a>&nbsp;|"+
+									"<a href='manage.do?month=9&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年9月</a>&nbsp;|"+
+									"<a href='manage.do?month=10&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年10月</a>&nbsp;|"+
+									"<a href='manage.do?month=11&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年11月</a>&nbsp;|"+
+									"<a href='manage.do?month=12&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年12月</a>&nbsp;|<br/>";
+					}
+					jQuery("#selectDate").html(html);
+				#end
+				
+				// 考勤年月时间范围选择
+				jQuery(".selectDate").change(function(){
+					var fromYear = jQuery("#fromYear").val();
+					var toYear = jQuery("#toYear").val();
+					var tempYear = toYear - fromYear;
+					if(tempYear<0){
+						return false;
+					}
+					var html = "";
+					for(;tempYear>=0;tempYear--){
+						var yearStr = toYear - tempYear;
+						html = html + 
+									"<a href='manage.do?month=1&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年1月</a>&nbsp;|"+
+									"<a href='manage.do?month=2&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年2月</a>&nbsp;|"+
+									"<a href='manage.do?month=3&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年3月</a>&nbsp;|"+
+									"<a href='manage.do?month=4&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年4月</a>&nbsp;|"+
+									"<a href='manage.do?month=5&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年5月</a>&nbsp;|"+
+									"<a href='manage.do?month=6&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年6月</a>&nbsp;|"+
+									"<a href='manage.do?month=7&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年7月</a>&nbsp;|"+
+									"<a href='manage.do?month=8&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年8月</a>&nbsp;|"+
+									"<a href='manage.do?month=9&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年9月</a>&nbsp;|"+
+									"<a href='manage.do?month=10&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年10月</a>&nbsp;|"+
+									"<a href='manage.do?month=11&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年11月</a>&nbsp;|"+
+									"<a href='manage.do?month=12&fromYearStr="+fromYear+"&toYearStr="+toYear+"&year="+yearStr+"'>"+yearStr+"年12月</a>&nbsp;|<br/>";
+					}
+					jQuery("#selectDate").html(html);
+				});
+				
+            </script>
+        </form>
+        <table class="table table-bordered table-hover definewidth m10" >
+        	<thead>
+        		<tr>
+        			<th style="text-align:center"><input type="checkbox" id="cb-all" value="0" /></th>
+        			<th>员工姓名(有考勤)</th>
+        			<th>日资（单位：人民币）</th>
+					<th>月资（单位：人民币）</th>
+        			<th>操作</th>
+        		</tr>
+        	</thead>
+        	#foreach($obj in $page.records)
+        		<tr>
+        			<td style="text-align:center"><input type="checkbox" name="checkbox" class="cb-for" id="cb$!{obj.id}" value="$!{obj.id}" /></td>
+        			<td>
+						$!{obj.username}
+					</td>
+        			<td>
+						$!{obj.usermoney}.00 元
+					</td>
+					<td>
+						$!{obj.usermoneyMonth}.00 元
+					</td>
+					<td>
+						<a href="#springUrl('/export/index.do?rIds=')$!{obj.id}">导出最近月工资</a> || 
+						<a href="#springUrl('/kaoqin/index.do?rIds=')$!{obj.id}">录入考勤</a> || 
+						<a href="#springUrl('/zhichu.do?rid=')$!{obj.id}">提前支出</a> || 
+						<a onclick="checkById($!{obj.id})">工资明细</a>
+					</td>
+        		</tr>
+			#end
+			<thead>
+        		<tr>
+        			<th style="text-align:center"><b style="color:red">临时增加</b></th>
+        			<th>姓名</th>
+        			<th>日资（单位：人民币）</th>
+					<th>月资（单位：人民币）</th>
+        			<th>操作</th>
+        		</tr>
+        	</thead>
+			#foreach($obj in $addList)
+        		<tr>
+        			<td  style="text-align:center"><input type="checkbox" name="checkbox" class="cb-for" id="cb$!{obj.id}" value="$!{obj.id}" /></td>
+        			<td>
+						$!{obj.username}
+					</td>
+        			<td>
+						$!{obj.usermoney}.00 元
+					</td>
+					<td>
+						$!{obj.usermoneyMonth}.00 元
+					</td>
+					<td>
+						<a href="#springUrl('/kaoqin/index.do?rIds=')$!{obj.id}">录入考勤</a> || 
+						<a href="#springUrl('/zhichu.do?rid=')$!{obj.id}">提前支出</a>
+					</td>
+        		</tr>
+			#end
+			<script type="text/javascript">
+				// 删除员工
+        		function deleteById(id){
+        			if(confirm('确定要删除该员工？删除后，考勤数据将无法恢复')){
+        				window.location='#springUrl('/user/doDelete.do?id=')'+id
+        			}
+        			return false;
+        		}
+				// 明细页面
+				function checkById(id){
+					var year = jQuery("#year").val();
+					var month = jQuery("#month").val();
+					var shenghuofei = jQuery("#shenghuofei").val();
+        			window.location='#springUrl('/export/check.do?rid=')'+id+"&year="+year+"&month="+month+"&shenghuofei="+shenghuofei;
+        		}
+				
+				// 全选
+				jQuery("#cb-all").click(function(){
+					if(jQuery("#cb-all").attr("checked")){
+    					jQuery(".cb-for").each(function(){
+    						this.checked = true;
+    					});
+					}else{
+						jQuery(".cb-for").each(function(){
+							this.checked = false;
+    					});
+					}
+				});
+				
+            </script>
+        </table>
+        <div class="inline pull-right page">
+        	<div>
+        		#page($!{page} "#springUrl('/manage.do')" "" "")
+        	</div>
+        </div>
+    </body>
+</html>

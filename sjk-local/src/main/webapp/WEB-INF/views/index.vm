@@ -35,13 +35,15 @@
 			BUI.use('common/main',function(){
 				var config = 
 				[
-					{id:'7',homePage : '8',menu:
+					{id:'7',homePage : '5',menu:
 					[
 						{
     				  		text:'大工地',items:
     				  		[
-    							{id:'8',text:'员工情况',href:'renyuan.do'},
-    							{id:'11',text:'支出情况',href:'zhichu.do'}
+								{id:'5',text:'考勤管理',href:'manage.do'},
+    							{id:'8',text:'员工管理',href:'renyuan.do'},
+    							{id:'11',text:'支出情况',href:'zhichu.do'},
+								{id:'12',text:'新增员工',href:'user/add.do'}
     					  	] 
 						}
 					]

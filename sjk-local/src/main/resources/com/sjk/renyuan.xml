@@ -103,6 +103,7 @@
 		<include refid="listColumn" />
 		from renyuan as a
 		<include refid="whereCase"/>
+		order by id desc
 	</select>
 
 	<select id="count" parameterClass="java.util.Map" resultClass="java.lang.Integer">

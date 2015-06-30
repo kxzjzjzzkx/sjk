@@ -35,7 +35,8 @@ public class UserController {
 	 * @param out
 	 */
 	@RequestMapping
-	public void add(Map<String, Object>out){
+	public void add(Map<String, Object>out,String result){
+		out.put("result", result);
 		out.put("dateStr", DateUtil.toString(new Date(), "yyyy-MM-dd"));
 	}
 	
@@ -56,9 +57,9 @@ public class UserController {
 		}
 		Integer i = renyuanService.create(renyuan);
 		if (i>0) {
-			System.out.println("------新增员工成功------");
+//			System.out.println("------新增员工成功------");
 		}
-		return new ModelAndView("redirect:/renyuan.do");
+		return new ModelAndView("redirect:/user/add.do?result="+i);
 	}
 	
 	/**
@@ -90,7 +91,7 @@ public class UserController {
 		}
 		Integer i = renyuanService.update(renyuan);
 		if (i>0) {
-			System.out.println("------修改员工信息成功------");
+//			System.out.println("------修改员工信息成功------");
 		}
 		return new ModelAndView("redirect:/renyuan.do");
 	}

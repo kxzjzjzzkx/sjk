@@ -7,8 +7,12 @@ package com.sjk.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -50,8 +54,33 @@ public class RootController {
 	 * @throws ParseException 
 	 */
 	@RequestMapping
-	public void renyuan(Map<String, Object>out,PageDto<Renyuan> page,Renyuan renyuan,String year,String month) throws UnsupportedEncodingException, ParseException{
+	public void renyuan(Map<String, Object>out,PageDto<Renyuan> page,Renyuan renyuan) throws UnsupportedEncodingException, ParseException{
 		page.setPageSize(18);
+		page = renyuanService.page(renyuan, page);
+		out.put("page", page);
+		if (StringUtils.isNotEmpty(renyuan.getUsername())) {
+			out.put("username", renyuan.getUsername());
+		}
+		out.put("yearStr", DateUtil.toString(new Date(), "yyyy"));
+		out.put("monthStr", DateUtil.toString(new Date(), "M"));
+	}
+	
+	/**
+	 * 管理界面 
+	 * @param out
+	 * @throws UnsupportedEncodingException 
+	 * @throws ParseException 
+	 */
+	@RequestMapping
+	public void manage(Map<String, Object>out,PageDto<Renyuan> page,Renyuan renyuan,String year,String month,String addRid,String fromYearStr,String toYearStr,String existId) throws UnsupportedEncodingException, ParseException{
+		page.setPageSize(18);
+		
+		if (StringUtils.isNotEmpty(fromYearStr)) {
+			out.put("fromYearStr", fromYearStr);
+		}
+		if (StringUtils.isNotEmpty(toYearStr)) {
+			out.put("toYearStr", toYearStr);
+		}
 		
 		// 选择时间
 		if (StringUtils.isEmpty(year)||StringUtils.isEmpty(month)) {
@@ -61,6 +90,9 @@ public class RootController {
 			renyuan.setFrom(DateUtil.toString(DateUtil.getDate(year+"-"+month+"-1", "yyyy-M-d"), "yyyy-M-1"));
 			renyuan.setTo(DateUtil.toString(DateUtil.getDateAfterMonths(DateUtil.getDate(year+"-"+month+"-1", "yyyy-M-d"), 1), "yyyy-M-1"));
 		}
+		
+		PageDto<Renyuan> userPage = renyuanService.page(new Renyuan(), new PageDto<Renyuan>());
+		out.put("allUser", userPage.getRecords());
 		
 		page = renyuanService.page(renyuan, page);
 		out.put("page", page);
@@ -77,6 +109,33 @@ public class RootController {
 		}else{
 			out.put("monthStr", DateUtil.toString(new Date(), "M"));
 		}
+		
+		// 获取添加的人员
+		if (StringUtils.isNotEmpty(addRid)) {
+			existId = existId+","+ addRid;
+		}
+		if (StringUtils.isNotEmpty(existId)) {
+			String [] addStrArray = existId.split(",");
+			Set<String> idSet = new HashSet<String>();
+			for (String id:addStrArray) {
+				idSet.add(id);
+			}
+			List<Renyuan> list = new ArrayList<Renyuan>();
+			for (String id:idSet) {
+				if (!StringUtils.isNumber(id)) {
+					continue;
+				}
+				Renyuan obj = renyuanService.queryById(Integer.valueOf(id));
+				if (obj==null) {
+					continue;
+				}
+				existId = existId+","+id;
+				list.add(obj);
+			}
+			out.put("existId", existId);
+			out.put("addList", list);
+		}
+		
 	}
 	
 	/**

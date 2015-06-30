@@ -36,8 +36,13 @@
 </head>
 <body>
 <form action="doAdd.do" method="get" class="definewidth m20">
+#if($result)
+	<p>
+		添加人员“<b>员工序号:$result</b>”成功,请去员工管理页面查看
+	</p>
+#end
 <table class="table table-bordered table-hover definewidth m10">
-    <tr>
+	<tr>
 		<td width="10%" class="tableleft">姓名</td>
 		<td><input type="text" name="username"/></td>
 	</tr>
